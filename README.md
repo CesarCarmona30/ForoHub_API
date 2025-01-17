@@ -1,66 +1,119 @@
 # ForoHub API
 
-### Descripción
-API RESTful desarrollada con Spring Boot para gestionar un foro de discusión. Este proyecto permite la creación, edición, eliminación y consulta de publicaciones y comentarios en un entorno seguro y escalable.
+**ForoHub API** es una API REST diseñada para gestionar usuarios, cursos, tópicos y respuestas en un foro académico. Este proyecto utiliza **Spring Boot**, **Hibernate** y una base de datos relacional (**MySQL** en este caso pero puede ser otra) para su implementación.
 
-### Tecnologías
-- **Spring Boot 3.4.1**
-- **Java 17/21**
-- **MySQL**
-- **Spring Security**
-- **Spring Data JPA**
-- **Flyway**
+## Características
 
-### Características
-- Gestión de usuarios (autenticación y autorización).
-- CRUD de publicaciones y comentarios.
-- Validación de datos del lado del servidor.
-- Versionado de la base de datos con Flyway.
-
-### Requisitos previos
-1. **Java 17 o superior**
-2. **Maven 3.8+**
-3. **MySQL 8+**
-
-### Instalación
-
-1. Clona el repositorio:
-
-   ```bash
-   git clone https://github.com/CesarCarmona30/ForoHub_API.git
-   cd ForoHub_API
-   ```
-
-2. Configura la base de datos:
-   - Crea una base de datos MySQL llamada `foro_hub`.
-   - Actualiza las credenciales de la base de datos en `application.properties` o `application.yml`.
-
-3. Ejecuta la aplicación:
-
-   ```bash
-   mvn spring-boot:run
-   ```
-
-4. Accede a la API en: `http://localhost:8080`
-
-### Endpoints principales
-- **Usuarios**:
-  - `POST /api/v1/auth/register`: Registro de usuarios.
-  - `POST /api/v1/auth/login`: Autenticación de usuarios.
-- **Publicaciones**:
-  - `GET /api/v1/posts`: Listar todas las publicaciones.
-  - `POST /api/v1/posts`: Crear una nueva publicación.
-  - `PUT /api/v1/posts/{id}`: Actualizar una publicación.
-  - `DELETE /api/v1/posts/{id}`: Eliminar una publicación.
-- **Comentarios**:
-  - `POST /api/v1/posts/{postId}/comments`: Crear un comentario en una publicación.
-
-### Contribuciones
-Si deseas contribuir al proyecto, realiza un fork del repositorio, crea una rama para tus cambios y abre un pull request.
-
-### Licencia
-Este proyecto está licenciado bajo la [MIT License](LICENSE).
+- **Usuarios**: Registro, autenticación (JWT) y listado de usuarios.
+- **Cursos**: Creación, actualización, listado y eliminación de cursos.
+- **Tópicos**: Creación, actualización, listado, eliminación y gestión del estado.
+- **Respuestas**: Creación, actualización, listado y eliminación de respuestas.
+- **Autenticación**: Autenticación basada en JWT con roles definidos (ADMIN, MODERATOR, TRAINER, USER).
 
 ---
 
-**Autor:** [Cesar Carmona](https://github.com/CesarCarmona30)
+## Requisitos previos
+
+- Java 17+
+- Maven 3+
+- Base de datos MySQL u otra base de datos compatible con Hibernate
+- Flyway para la gestión de migraciones
+
+---
+
+## Configuración
+
+1. **Clonar el repositorio:**
+
+   ```bash
+   git clone <URL_DEL_REPOSITORIO>
+   cd ForoHub_API
+   ```
+
+2. **Configurar la base de datos:**
+   Actualiza las propiedades en `src/main/resources/application.properties`:
+
+   ```properties
+   spring.datasource.url=jdbc:mysql://${DB_URL}
+   spring.datasource.username=${DB_USER}
+   spring.datasource.password=${DB_PASSWORD}
+   api.security.secret=${SECURITY_SECRET}
+   ```
+
+3. **Ejecutar migraciones con Flyway:**
+
+   ```bash
+   mvn flyway:migrate
+   ```
+
+4. **Construir y ejecutar la aplicación:**
+   ```bash
+   mvn clean install
+   java -jar target/ForoHub_API.jar
+   ```
+
+---
+
+## Endpoints principales
+
+### Usuarios
+
+- **POST** `/register` - Registro de nuevos usuarios
+- **POST** `/login` - Autenticación de usuarios
+
+### Cursos
+
+- **GET** `/courses` - Listar todos los cursos
+- **POST** `/courses` - Crear un nuevo curso
+- **PUT** `/courses/{id}` - Actualizar un curso
+- **DELETE** `/courses/{id}` - Eliminar un curso
+
+### Tópicos
+
+- **GET** `/topics` - Listar todos los tópicos
+- **POST** `/topics` - Crear un nuevo tópico
+- **PUT** `/topics/{id}` - Actualizar un tópico
+- **DELETE** `/topics/{id}` - Eliminar un tópico
+
+### Respuestas
+
+- **GET** `/answers` - Listar todas las respuestas
+- **POST** `/answers` - Crear una nueva respuesta
+- **PUT** `/answers/{id}` - Actualizar una respuesta
+- **DELETE** `/answers/{id}` - Eliminar una respuesta
+
+---
+
+## Autenticación y roles
+
+La API utiliza **JSON Web Tokens (JWT)** para la autenticación. Cada usuario tiene un rol asociado que determina su acceso a diferentes endpoints.
+
+Roles disponibles:
+
+- **ADMIN**: Acceso completo
+- **MODERATOR**: Gestión de tópicos y respuestas
+- **TRAINER**: Gestión de cursos
+- **USER**: Creación y visualización de tópicos y respuestas
+
+---
+
+## Tecnologías utilizadas
+
+- **Java 17**
+- **Spring Boot 3**
+- **Hibernate**
+- **MySQL**
+- **Flyway**
+- **JWT**
+
+---
+
+## Contribuciones
+
+Las contribuciones son bienvenidas. Por favor, abre un issue o envía un pull request.
+
+---
+
+## Licencia
+
+Este proyecto está bajo la [MIT License](LICENSE).
